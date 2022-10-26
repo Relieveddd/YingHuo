@@ -1,0 +1,333 @@
+<!-- <template>
+  <el-button text @click="centerDialogVisible = true">增加</el-button>
+
+  <el-dialog
+    v-model="centerDialogVisible"
+    title="增加用户"
+    width="500px"
+    align-center
+    ><el-form
+      ref="ruleFormRef"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="120px"
+      class="demo-ruleForm"
+      :size="formSize"
+      status-icon
+    >
+      <el-form-item label="管理员姓名" prop="manageName">
+        <el-input v-model="ruleForm.manageName" />
+      </el-form-item>
+      <el-form-item label="用户名" prop="userName">
+        <el-input v-model="ruleForm.userName" />
+      </el-form-item>
+      <el-form-item label="所属角色" prop="userRole">
+        <el-select v-model="ruleForm.userRole" placeholder="选择角色">
+          <el-option label="运营人员" value="运营人员" />
+          <el-option label="客服人员" value="客服人员" />
+          <el-option label="发货人员" value="发货人员" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="用户密码" prop="pw">
+        <el-input type="password" autocomplete="off" v-model="ruleForm.pw" />
+      </el-form-item>
+      <el-form-item label="确认密码" autocomplete="off" prop="checkPw">
+        <el-input type="password" v-model="ruleForm.checkPw" />
+      </el-form-item>
+      <el-form-item label="排序" prop="slot">
+        <el-input-number v-model="ruleForm.slot" />
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="centerDialogVisible = false">取消</el-button>
+        <el-button @click="resetForm(ruleFormRef)">重置</el-button>
+        <el-button type="primary" @click="submitForm(ruleFormRef)"
+          >确认</el-button
+        >
+      </el-form-item>
+    </el-form>
+  </el-dialog>
+</template>
+<script setup>
+import { reactive, ref, getCurrentInstance } from "vue";
+
+const { proxy } = getCurrentInstance();
+const centerDialogVisible = ref(false);
+const formSize = ref("default");
+const ruleFormRef = ref();
+const ruleForm = reactive({
+  manageName: "",
+  userName: "",
+  userRole: "",
+  pw: "",
+  checkPw: "",
+  slot: 100,
+});
+// 密码验证
+const validatePass = (rule, value, callback) => {
+  if (value === "") {
+    callback(new Error("请输入密码"));
+  } else {
+    if (ruleForm.checkPw !== "") {
+      if (!ruleFormRef.value) return;
+      ruleFormRef.value.validateField("checkPw", () => null);
+    }
+    callback();
+  }
+};
+// 再次输入密码验证
+const validatePass2 = (rule, value, callback) => {
+  if (value === "") {
+    callback(new Error("请再次输入密码"));
+  } else if (value !== ruleForm.pw) {
+    callback(new Error("两次密码不一致!"));
+  } else {
+    callback();
+  }
+};
+const rules = reactive({
+  manageName: [
+    {
+      required: true,
+      message: "请输入管理员名称",
+      trigger: "blur",
+    },
+    { min: 2, message: "请至少输入2个字符", trigger: "blur" },
+  ],
+  userName: [
+    {
+      required: true,
+      message: "请输入用户名",
+      trigger: "blur",
+    },
+    { min: 4, message: "请至少输入4个字符", trigger: "blur" },
+  ],
+  userRole: [
+    {
+      required: true,
+      message: "请选择用户角色",
+      trigger: "change",
+    },
+  ],
+  pw: [{ required: true, validator: validatePass, trigger: "blur" }],
+  checkPw: [{ required: true, validator: validatePass2, trigger: "blur" }],
+});
+// 表单提交验证
+const submitForm = async (formEl) => {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      // console.log(ruleForm);
+      proxy
+        .$axios({
+          url: "/api/admin/register",
+          method: "POST",
+          data: {
+            token: localStorage.getItem("token"),
+            name: ruleForm.manageName,
+            pw: ruleForm.pw,
+            roles: [{ role_id: "" }, { role_name: ruleForm.userRole }],
+          },
+        })
+        .then((res) => {
+          // console.log(res);
+        });
+      // 清空对象
+      Object.keys(ruleForm).map((key) => {
+        if (key !== "slot") {
+          delete ruleForm[key];
+        } else {
+          ruleForm[(key = 100)];
+        }
+      });
+      console.log(ruleForm);
+      // 关闭弹窗
+      centerDialogVisible.value = false;
+    } else {
+      console.log("表单验证失败，请重新输入", fields);
+    }
+  });
+};
+// 重置表单
+const resetForm = (formEl) => {
+  if (!formEl) return;
+  formEl.resetFields();
+};
+
+const options = Array.from({ length: 10000 }).map((_, idx) => ({
+  value: `${idx + 1}`,
+  label: `${idx + 1}`,
+}));
+</script>
+<style scoped>
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+</style> -->
+
+
+
+-----------------------------------------
+<template>
+  <el-button type="primary" @click="dialogFormVisible = true">增加</el-button>
+  <el-dialog
+    align-center="true"
+    v-model="dialogFormVisible"
+    title="新增角商品分类"
+    width="600px"
+  >
+    <el-form
+      :model="roleform"
+      :rules="formRules"
+      class="demo-ruleForm"
+      ref="formForRules"
+    >
+      <el-form-item
+        label="分类名称"
+        :label-width="formLabelWidth"
+        prop="RoleName"
+      >
+        <el-input
+          v-model="roleform.RoleName"
+          autocomplete="off"
+          trigger="blur"
+        />
+      </el-form-item>
+      <el-form-item label="上级分类" :label-width="formLabelWidth">
+        <el-select v-model="roleform.lastRole" placeholder="请选择">
+          <el-option label="手机数码" value="手机数码" />
+          <el-option label="家用电器" value="家用电器" />
+          <el-option label="电脑办公" value="电脑办公" />
+          <el-option label="汽车用品" value="汽车用品" />
+        </el-select>
+      </el-form-item>
+      <el-form-item
+        v-model="roleform.menuList"
+        label="分类图片："
+        :label-width="formLabelWidth"
+      >
+        <el-upload
+          class="avatar-uploader"
+          action="http://api_devs.wanxikeji.cn/api/savePic"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+          name="img"
+        >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        </el-upload>
+      </el-form-item>
+      <el-form-item> </el-form-item>
+      <el-form-item :label-width="formLabelWidth">
+        <span>用户端是否展示</span>
+      </el-form-item>
+      <el-form-item label="排序" :label-width="formLabelWidth">
+        <el-input-number v-model="roleform.UserSort" />
+      </el-form-item>
+      <el-form-item :label-width="formLabelWidth">
+        <span>数字越小越靠前</span>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitAddRole(formForRules)"
+          >确认</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
+</template>
+<script setup>
+import { ref, reactive, getCurrentInstance } from "vue";
+import { ElMessage } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
+
+const imageUrl = ref("");
+const { proxy } = getCurrentInstance();
+// 弹出框
+const dialogFormVisible = ref(false);
+const formForRules = ref();
+const formLabelWidth = "200px";
+const roleform = reactive({
+  RoleName: "",
+  lastRole: "",
+  menuList: {},
+  UserSort: 100,
+});
+// 验证规则
+const formRules = reactive({
+  RoleName: [
+    {
+      required: true,
+      message: "请输入角色名称",
+      trigger: "blur",
+    },
+    { min: 2, message: "请至少输入2个字符", trigger: "blur" },
+  ],
+});
+
+// 表单验证
+const submitAddRole = async (formForRules) => {
+  if (!formForRules) return;
+  await formForRules.validate((valid, fields) => {
+    if (valid) {
+      console.log(roleform);
+    } else {
+      ElMessage({
+        type: "warning",
+        message: "请输入角色名称",
+      });
+    }
+  });
+};
+// upload
+
+// 图片上传
+
+const handleAvatarSuccess = (response, uploadFile) => {
+  console.log(response.data);
+  imageUrl.value = "http://api_devs.wanxikeji.cn/" + response.data;
+};
+
+const beforeAvatarUpload = (rawFile) => {
+  if (rawFile.type !== "image/jpeg") {
+    ElMessage.error("请传入jpg格式!");
+    return false;
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error("文件大小不能超过 2MB!");
+    return false;
+  }
+  return true;
+};
+</script>
+<style scoped>
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
+</style>
+
