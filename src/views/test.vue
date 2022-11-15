@@ -1,74 +1,73 @@
 <template>
-  <el-tree
-    ref="treeRef"
-    :data="data"
-    show-checkbox
-    default-expand-all
-    node-key="id"
-    highlight-current
-    :props="defaultProps"
-  />
+  <div class="amount">
+    <div style="display: flex">
+      <span>￥</span>
+      <transition-group name="list" tag="p">
+        <p
+          style="display: inline-block"
+          v-for="(item, index) in todayAmountComputed"
+          :key="item + index"
+        >
+          {{ item }}
+        </p>
+      </transition-group>
+    </div>
+  </div>
 </template>
-
 <script setup>
-import { ref } from "vue";
-import { ElTree } from "element-plus";
+import { ref, computed, onMounted } from "vue";
+const todayAmount = ref(0);
+const platformSales1 = ref(4090013);
+// const todayAmountComputed = (computed = () => {
+//   return this.todayAmount.split("");
+// });
 
-const treeRef = ref();
-
-const defaultProps = {
-  children: "children",
-  label: "label",
-};
-
-const data = [
-  {
-    id: 1,
-    label: "Level one 1",
-    children: [
-      {
-        id: 4,
-        label: "Level two 1-1",
-        children: [
-          {
-            id: 9,
-            label: "Level three 1-1-1",
-          },
-          {
-            id: 10,
-            label: "Level three 1-1-2",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 2,
-    label: "Level one 2",
-    children: [
-      {
-        id: 5,
-        label: "Level two 2-1",
-      },
-      {
-        id: 6,
-        label: "Level two 2-2",
-      },
-    ],
-  },
-  {
-    id: 3,
-    label: "Level one 3",
-    children: [
-      {
-        id: 7,
-        label: "Level two 3-1",
-      },
-      {
-        id: 8,
-        label: "Level two 3-2",
-      },
-    ],
-  },
-];
+// onMounted = () => {
+//   setInterval(() => {
+//     if (this.todayAmount === "0") {
+//       this.todayAmount = "1000";
+//     }
+//     this.todayAmount = "" + Math.floor(Math.random() * 10000);
+//   }, 2000);
+// };
 </script>
+<style scoped>
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body,
+html {
+  min-width: 1920px;
+  min-height: 1080px;
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  position: relative;
+}
+
+.amount {
+  color: gold;
+  font-size: 85px;
+  display: flex;
+  justify-content: center;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateY(50%);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(-50%);
+}
+</style>

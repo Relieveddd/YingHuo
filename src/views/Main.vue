@@ -31,7 +31,8 @@
           <div class="headerall">
             <div class="l-content">
               <el-button size="small" color="#ffffff" @click="subAsideRe">
-                <el-icon :size="20"><Fold /></el-icon>
+                <el-icon v-if="ifCollapse" :size="20"><Expand /></el-icon>
+                <el-icon v-else :size="20"><Fold /></el-icon>
               </el-button>
               <el-button size="small" color="#ffffff" @click="btnRefresh">
                 <el-icon :size="20"><RefreshLeft /></el-icon>
@@ -115,8 +116,8 @@ const subAsideRe = () => {
     ifCollapse.value = true;
     widthAside.value = 65 + "px";
   } else {
-    ifCollapse.value = false;
     widthAside.value = 160 + "px";
+    ifCollapse.value = false;
   }
 };
 // btnRefresh刷新页面

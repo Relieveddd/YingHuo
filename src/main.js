@@ -7,6 +7,8 @@ import router from "./router";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import myaxios from "./axios";
 import timeTransformate from "./timeTransformate";
+import ECharts from "vue-echarts";
+import "echarts";
 
 const app = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -30,6 +32,7 @@ router.beforeEach((to, from, next) => {
 // timeTransformate全局函数用来将时间戳转换成我们需要的时间格式
 app.config.globalProperties.$timeTransformate = timeTransformate;
 app.config.globalProperties.$axios = myaxios;
+app.component("ECharts", ECharts);
 app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);

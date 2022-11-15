@@ -146,6 +146,7 @@ const pageSize = 10;
 function handleCurrentChange(_currentPage) {
   //每次点击分页按钮，当前页发生变化
   currentPage.value = _currentPage;
+  // getAllData(currentPage.value, pageSize);
   // console.log(_currentPage);
 }
 // 设置变量保存当前请求获取的数据
@@ -153,22 +154,31 @@ let adminlist = ref([]);
 let adminRoleForm = ref([]);
 const { proxy } = getCurrentInstance();
 // 请求当前管理员账号
-proxy
-  .$axios({
-    url: "/api/admin/accountList",
-    method: "POST",
-    data: {
-      token: localStorage.getItem("token"),
-      size: 100,
-    },
-  })
-  .then((res) => {
-    console.log(res.data.data.data);
-    res.data.data.data.map((item) => {
-      item.create_time = proxy.$timeTransformate(item.create_time);
-      adminlist.value.push(item);
+// 设置总条数
+let countNum = ref(1);
+// 封装请求页面函数
+const getAllData = (pageIn, sizeIn) => {
+  proxy
+    .$axios({
+      url: "/api/admin/accountList",
+      method: "POST",
+      data: {
+        token: localStorage.getItem("token"),
+        page: pageIn,
+        size: sizeIn,
+      },
+    })
+    .then((res) => {
+      // console.log(res.data.data.count);
+      countNum.value = res.data.data.count;
+      // console.log(countNum.value);
+      res.data.data.data.map((item) => {
+        item.create_time = proxy.$timeTransformate(item.create_time);
+        adminlist.value.push(item);
+      });
     });
-  });
+};
+getAllData(currentPage.value, 100);
 // 设置用户角色变量用于渲染到页面
 proxy.$axios
   .post("/api/admin/roleLise", {
