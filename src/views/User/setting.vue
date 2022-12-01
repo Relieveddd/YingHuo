@@ -162,12 +162,11 @@
         </div>
       </div>
     </div>
-    <el-button @click="add">增加</el-button>
+    <!-- <el-button @click="add">增加</el-button> -->
   </div>
 </template>
 <script setup>
 import { ref, computed, watch } from "vue";
-import gsap from "gsap";
 
 // 设置响应式变量保存中间数据
 const numArray = ref([

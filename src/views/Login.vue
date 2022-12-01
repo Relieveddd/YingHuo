@@ -98,15 +98,15 @@ const subumit = () => {
     }
   });
 };
-proxy
-  .$axios({
-    url: "/api/admin/accountDelete",
-    method: "delete",
-    data: { admin_name: "a", pw: "a" },
-  })
-  .then((res) => {
-    console.log(res);
-  });
+// proxy
+//   .$axios({
+//     url: "/api/admin/accountDelete",
+//     method: "delete",
+//     data: { admin_name: "a", pw: "a" },
+//   })
+//   .then((res) => {
+//     console.log(res);
+//   });
 
 //设置变量 双向绑定用户名和密码
 const form = ref({

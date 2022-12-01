@@ -252,7 +252,7 @@ proxy
   })
   .then((res) => {
     // 一级分层数据
-    console.log(res.data.data);
+    // console.log(res.data.data);
     res.data.data.forEach((item) => {
       if (item.parent_id == 0) {
         treeData.value.push(item);

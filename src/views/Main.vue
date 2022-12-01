@@ -19,7 +19,7 @@
                 @click="change(index)"
               >
                 <el-icon><icon-menu /></el-icon>
-                <component class="icons" :is="item.icon"></component>
+                <component class="icons" :is="item.icon"></component>&nbsp;
                 <span class="itemTitle">{{ item.label }}</span>
               </el-menu-item>
             </el-menu>
@@ -173,6 +173,11 @@ const list = ref([
       },
     ],
   },
+  {
+    label: "视频",
+    icon: "setting",
+    path: "/vedio",
+  },
 ]);
 // 设置变量保存点击了一级菜单以后的二级菜单的所有选项
 let child_menu = ref([]);
@@ -189,26 +194,29 @@ const change = (index) => {
     child_menu.value = list.value[index].children;
     proxy.$router.push(child_menu.value[0].path);
     menu_title.value.push(child_menu.value[0]);
-  } else {
+  } else if (!list.value[index].children) {
     child_menu.value = [];
-    proxy.$router.push(list.value[0].path);
+    proxy.$router.push(list.value[index].path);
   }
 };
 // 二级菜单的路由跳转
 let jump = (index) => {
   menu_title.value[1] = child_menu.value[index];
-  proxy.$router.push(child_menu.value[index].path);
+  proxy.$router.push({ path: child_menu.value[index].path, query: { index } });
 };
-
+// 设置二级菜单被选中的参数
+const seletcedID2 = ref(0);
 // 设置声明周期函数保存刷新之前的index，保证刷新以后依然在原页面
 onMounted(() => {
   let path = proxy.$route.path;
   list.value.forEach((item, index) => {
     if (item.children) {
-      item.children.forEach((items) => {
+      item.children.forEach((items, indexs) => {
         if (items.path == path) {
           child_menu.value = item.children;
           mselectedID.value = index;
+          seletcedID2.value = indexs;
+          console.log(seletcedID2.value, index);
           menu_title.value[0] = item;
           menu_title.value[1] = items;
         }
@@ -236,6 +244,32 @@ body {
 .common-layout .el-container .el-header {
   flex-wrap: wrap;
   padding: 0;
+}
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* 滚动槽 */
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+
+  border-radius: 6px;
+}
+
+/* 滚动条滑块 */
+
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+
+  background: rgba(0, 0, 0, 0.1);
+
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 0, 0, 0.4);
 }
 .common-layout {
   height: 100%;

@@ -120,7 +120,7 @@ proxy
 // 新增或编辑.
 const addNewGood = (rowIn) => {
   if (rowIn) {
-    console.log(rowIn);
+    // console.log(rowIn);
     proxy.$router.push({
       path: "/creation",
       query: { good_id: rowIn.good_id },

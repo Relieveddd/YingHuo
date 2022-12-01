@@ -1,0 +1,41 @@
+<view class="verify" 
+      v-loading="verify.loading" 
+      element-loading-background="#fff" 
+      @click="verifyShow" 
+      :style="`color:` + verify.text.color">{{ verify.text.value }}</view>
+
+<!-- 拼图验证 -->
+<tfgg-verify @result="verifyResult" ref="verifyElement"></tfgg-verify>
+
+
+
+import tfggVerify from '@/components/tfgg-verify/tfgg-verify.vue';
+
+data() {
+  verify: {
+    text: {
+      color: '#909399',
+      value: '点击验证',
+    },
+    result: false,
+    loading: false,
+  }
+}
+
+methods: {
+  verifyShow() {
+    this.$refs['verifyElement'].show();
+  },
+  verifyResult(res) {
+    this.verify.result = res.result;
+    if (this.verify.result) {
+      this.$refs['verifyElement'].reset();
+      this.verify.text.color = '#2D993B';
+      this.verify.text.value = '验证成功';
+    } else {
+      this.verify.text.color = '#a6172d';
+      this.verify.text.value = '验证失败';
+    }
+  }
+}
+
