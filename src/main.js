@@ -9,6 +9,8 @@ import myaxios from "./axios";
 import timeTransformate from "./timeTransformate";
 import ECharts from "vue-echarts";
 import "echarts";
+// 引入store
+import store from "@/store";
 
 const app = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -33,6 +35,8 @@ router.beforeEach((to, from, next) => {
 app.config.globalProperties.$timeTransformate = timeTransformate;
 app.config.globalProperties.$axios = myaxios;
 app.component("ECharts", ECharts);
+// 全局使用store
+app.use(store);
 app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);

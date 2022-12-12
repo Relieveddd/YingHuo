@@ -20,6 +20,7 @@
 <script setup>
 import { userList, vedioList } from "../../assets/API/index.js";
 import { reactive, ref, getCurrentInstance } from "vue";
+
 const { proxy } = getCurrentInstance();
 // 保存请求视频数据
 let userlistdata = reactive({

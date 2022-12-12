@@ -162,13 +162,40 @@
         </div>
       </div>
     </div>
-    <!-- <el-button @click="add">增加</el-button> -->
+    <el-col>
+      <el-button type="primary" @click="addFn"
+        >查看地图,首页的num{{ useStateNum }}</el-button
+      >
+      <el-button type="primary" @click="reduceFn"
+        >点击减一：{{ useStateNum }}</el-button
+      >
+    </el-col>
   </div>
 </template>
 <script setup>
-import { ref, computed, watch } from "vue";
-
-// 设置响应式变量保存中间数据
+import { ref, computed, watch, getCurrentInstance } from "vue";
+import { useState } from "../../store/hooks.js";
+//import { useStore, mapState } from "vuex";
+const { proxy } = getCurrentInstance();
+//vue3  的vuex辅助写法
+//vue3 辅助写法
+const useStateNum = useState(["num"]).num;
+//vue3原始用法
+//const store = useStore();
+//const num = computed(() => {
+// return store.state.num;
+//});
+function addFn() {
+  // 调用store中的mutation中的increase方法
+  // 传参，使用payload
+  proxy.$store.commit("increase");
+}
+function reduceFn() {
+  proxy.$store.dispatch("decreaseAsync");
+}
+// const num = computed(() => {
+//   return proxy.$store.state.num;
+// });
 const numArray = ref([
   { SMpeople: "扫码人次", num: 23, monNum: 536 },
   { SMpeople: "通话人次", num: 20, monNum: 315 },
@@ -352,6 +379,7 @@ watch(
   },
   { deep: true }
 );
+
 // 添加函数用以测试各数组添加数据后的效果
 const add = () => {
   // console.log(tableData.value[7].productNum);
@@ -588,6 +616,10 @@ $titleWeight: 600;
       font-size: $title;
       font-weight: $titleWeight;
     }
+  }
+  .mapDiv {
+    width: 100%;
+    height: 500px;
   }
 }
 // 右侧表格结束

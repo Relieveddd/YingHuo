@@ -66,6 +66,12 @@ const routes = [
         meta: { selectedID: 10 },
       },
       {
+        path: "/upload",
+        name: "upload",
+        component: () => import("../views/upload/upload.vue"),
+        meta: { selectedID: 12 },
+      },
+      {
         path: "/VedioPlayer",
         name: "VedioPlayer",
         component: () => import("../views/Vedio/vedioPlayer.vue"),

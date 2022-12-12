@@ -92,8 +92,8 @@
               </el-row>
             </el-aside>
           </div>
-
           <el-main>
+            <div>main页面的num：{{ useStateNum }}</div>
             <router-view></router-view>
           </el-main>
         </el-container>
@@ -103,8 +103,23 @@
 </template>
 
 <script setup>
-import { defineComponent } from "vue";
-import { ref, getCurrentInstance, onMounted } from "vue";
+import { ref, getCurrentInstance, computed, onMounted } from "vue";
+// import { useStore, mapState } from "vuex";
+import { useState } from "../store/hooks.js";
+
+// 引入proxy
+const { proxy } = getCurrentInstance();
+// const num = computed(() => {
+//   return proxy.$store.state.num;
+// });
+
+// vuex  vue3的常规语法
+// const store = useStore();
+// const num = computed(() => {
+//   return store.state.num;
+// });
+// vuex   vue3 辅助写法
+const useStateNum = useState(["num"]).num;
 
 //设置控制aside宽度的变量
 let widthAside = ref(160 + "px");
@@ -127,8 +142,7 @@ const btnRefresh = () => {
 let mselectedID = ref(0);
 // 设置变量保存顶部当前所在的页面
 let menu_title = ref([]);
-// 引入proxy
-const { proxy } = getCurrentInstance();
+
 // 设置数组渲染一级侧边栏
 const list = ref([
   {
@@ -174,7 +188,7 @@ const list = ref([
     ],
   },
   {
-    label: "视频",
+    label: "视频,断点续传",
     icon: "setting",
     path: "/vedio",
   },
@@ -232,6 +246,7 @@ onMounted(() => {
 *::after {
   box-sizing: border-box;
   margin: 0;
+  padding: 0;
   position: relative;
   font-weight: normal;
 }
@@ -254,7 +269,6 @@ body {
 
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
-
   border-radius: 6px;
 }
 
@@ -262,9 +276,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 6px;
-
   background: rgba(0, 0, 0, 0.1);
-
   -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
 }
 
@@ -272,7 +284,7 @@ body {
   background: rgba(255, 0, 0, 0.4);
 }
 .common-layout {
-  height: 100%;
+  /* height: 100%; */
   background-color: #f0f2f5;
 }
 .el-main {

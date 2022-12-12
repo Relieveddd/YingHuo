@@ -10,6 +10,10 @@
     </div>
     <!-- 模拟滚动 -->
     <!-- <div style="height: 2000px"></div> -->
+
+    <div>
+      <upload />
+    </div>
   </div>
 </template>
 
@@ -18,6 +22,7 @@ import { ref, onMounted } from "vue";
 import { useIntersectionObserver } from "@vueuse/core";
 import { useRoute } from "vue-router";
 import Player from "xgplayer";
+import upload from "../upload/upload.vue";
 
 const route = useRoute().query;
 const vedioInfoIn = JSON.parse(route.itemIn1);
