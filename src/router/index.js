@@ -77,6 +77,12 @@ const routes = [
         component: () => import("../views/Vedio/vedioPlayer.vue"),
         meta: { selectedID: 11 },
       },
+      {
+        path: "/bigScreen",
+        name: "bigScreen",
+        component: () => import("../views/User/bigScreen.vue"),
+        meta: { selectedID: 13 },
+      },
     ],
   },
 

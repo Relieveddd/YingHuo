@@ -164,10 +164,10 @@
     </div>
     <el-col>
       <el-button type="primary" @click="addFn"
-        >查看地图,首页的num{{ useStateNum }}</el-button
+        >查看地图,首页的num点击+1：{{ useStateNum }}</el-button
       >
       <el-button type="primary" @click="reduceFn"
-        >点击减一：{{ useStateNum }}</el-button
+        >点击减2：{{ useStateNum }}</el-button
       >
     </el-col>
   </div>

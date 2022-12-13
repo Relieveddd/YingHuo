@@ -1,5 +1,11 @@
 import { computed } from "vue";
-import { mapGetters, mapState, useStore, createNamespacedHelpers } from "vuex";
+import {
+  mapGetters,
+  mapState,
+  mapMutations,
+  useStore,
+  createNamespacedHelpers,
+} from "vuex";
 
 const useMapper = (mapper, mapFn) => {
   const store = useStore();
@@ -32,4 +38,13 @@ export const useGetters = (moduleName, mapper) => {
     mapper = moduleName;
   }
   return useMapper(mapper, mapperFn);
+};
+export const useMutations = (moduleName, mapper) => {
+  let mapperFn = mapMutations;
+  if (typeof moduleName === "string" && moduleName.length > 0) {
+    mapperFn = createNamespacedHelpers(moduleName).mapMutations;
+  } else {
+    mapper = moduleName;
+  }
+  return useMutations(mapper, mapperFn);
 };

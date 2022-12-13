@@ -49,7 +49,7 @@ export default {
   },
 };
 </script> -->
-<template>
+<!-- <template>
   <div>
     <p>孩子方法四</p>
     <p>{{ message }}</p>
@@ -59,4 +59,4 @@ export default {
 export default {
   inject: ["message"],
 };
-</script>
+</script> -->

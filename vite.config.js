@@ -17,4 +17,16 @@ export default defineConfig({
       },
     },
   },
+  //跨域
+  server: {
+    port: 5173,
+    proxy: {
+      "/api": {
+        target: "https://www.vvsai.com",
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });

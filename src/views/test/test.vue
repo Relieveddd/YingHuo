@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="container">
     <el-table data="table" style="width: 100%">
       <el-table-column prop="textName" label="文档名称" width="300" />
@@ -75,4 +75,4 @@ axios
 .container {
   display: flex;
 }
-</style>
+</style> -->

@@ -93,7 +93,7 @@
             </el-aside>
           </div>
           <el-main>
-            <div>main页面的num：{{ useStateNum }}</div>
+            <div>容器组件：{{ useStateNum }}</div>
             <router-view></router-view>
           </el-main>
         </el-container>
@@ -192,6 +192,11 @@ const list = ref([
     icon: "setting",
     path: "/vedio",
   },
+  {
+    label: "大屏展示",
+    icon: "refresh",
+    path: "/bigScreen",
+  },
 ]);
 // 设置变量保存点击了一级菜单以后的二级菜单的所有选项
 let child_menu = ref([]);
@@ -251,44 +256,29 @@ onMounted(() => {
   font-weight: normal;
 }
 body {
+  padding: 0;
+  margin: 0;
+  list-style: none;
   background-color: #f0f2f5;
 }
-.common-layout .main-cont {
+.common-layout {
   width: 100%;
+  height: 100vh;
 }
 .common-layout .el-container .el-header {
   flex-wrap: wrap;
   padding: 0;
 }
-/* 滚动条样式 */
-::-webkit-scrollbar {
-  width: 8px;
-}
 
-/* 滚动槽 */
-
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
-  border-radius: 6px;
-}
-
-/* 滚动条滑块 */
-
-::-webkit-scrollbar-thumb {
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
-}
-
-::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(255, 0, 0, 0.4);
-}
 .common-layout {
-  /* height: 100%; */
   background-color: #f0f2f5;
 }
 .el-main {
+  height: 100vh;
   padding: 0;
+}
+.common-layout .el-container .el-container .el-container .el-main {
+  height: 90.5vh;
 }
 .icons {
   width: 16px;
@@ -310,7 +300,7 @@ body {
   height: 100vh;
 }
 .second-aside .el-aside .el-menu {
-  height: 90.5vh;
+  height: 91vh;
 }
 div h5 {
   background-color: #001529;
@@ -351,13 +341,27 @@ div h5 {
   box-sizing: border-box;
   font-size: 14px;
 }
-.l-content {
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
-  box-sizing: border-box;
-}
+
 .el-dropdown:hover {
   background-color: #f9f9f9;
+}
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* 滚动槽 */
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+}
+
+/* 滚动条滑块 */
+
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
 }
 </style>
