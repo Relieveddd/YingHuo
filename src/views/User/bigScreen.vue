@@ -40,9 +40,16 @@
             ><span id="bigScore3">{{ useStateNum1 }}</span>
           </div>
           <div class="smallScore" v-for="(item, index) in useStateNum3">
-            <span class="nowScore1">{{ item.num }}</span
-            ><span class="nowScore2">-</span
-            ><span class="nowScore3">{{ item.num1 }}</span>
+            <div v-if="gameInfo.statusNum % 2 == 0">
+              <span class="nowScore1">{{ item.num }}</span
+              ><span class="nowScore2">-</span
+              ><span class="nowScore3">{{ item.num1 }}</span>
+            </div>
+            <div v-if="gameInfo.statusNum % 2 == 1">
+              <span class="nowScore1">{{ item.num1 }}</span
+              ><span class="nowScore2">-</span
+              ><span class="nowScore3">{{ item.num }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -146,12 +153,6 @@ function getEle() {
       .querySelector("#divScore2")
       .after(document.querySelector("#divScore3"));
     document
-      .querySelector(".nowScore3")
-      .before(document.querySelector(".nowScore1"));
-    document
-      .querySelector(".nowScore2")
-      .after(document.querySelector(".nowScore3"));
-    document
       .querySelector("#bigScore3")
       .before(document.querySelector("#bigScore1"));
     document
@@ -166,12 +167,6 @@ function getEle() {
     document
       .querySelector("#divScore2")
       .after(document.querySelector("#divScore1"));
-    document
-      .querySelector(".nowScore1")
-      .before(document.querySelector(".nowScore3"));
-    document
-      .querySelector(".nowScore2")
-      .after(document.querySelector(".nowScore1"));
     document
       .querySelector("#bigScore1")
       .before(document.querySelector("#bigScore3"));
